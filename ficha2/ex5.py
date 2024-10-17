@@ -1,17 +1,16 @@
 
-number = int(input("Digite um número inteiro e positivo: "))
+numero = int(input("Digite um número: "))
 
-
-if number < 2:
-    print(f"{number} não é um número primo.")
+primo = True
+for i in range(2, numero):
+    resto = numero % i
+    if resto == 0:
+        primo = False
+        break
+if primo == True:
+    print("O número é primo")
 else:
-    i = 2
-    while i * i <= number:  
-        if number % i == 0:
-            print(f"{number} não é um número primo.")
-            break
-        i += 1
-    else:
-        print(f"{number} é um número primo.")
+     print("O número não é primo")
 
-        #Solução correta mas fiquei sem perceber. Verificar resolução moodle
+
+
