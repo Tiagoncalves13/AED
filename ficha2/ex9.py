@@ -1,18 +1,16 @@
 n = int(input("Digite a quantidade de números que você deseja inserir: "))
 
-maior = None
-segundo_maior = None
+maior = 0
+segundo_maior = 0
 
 for i in range(n):
     numero = int(input(f"Digite o número {i + 1}: "))
     
-    if maior is None or numero > maior:
+    if numero > maior:
         segundo_maior = maior  
         maior = numero
-    elif segundo_maior is None or (numero > segundo_maior and numero != maior):
+    elif numero > segundo_maior:
         segundo_maior = numero
 
-if segundo_maior is not None:
-    print(f"O segundo maior valor é: {segundo_maior}")
-else:
-    print("Não foi possível determinar o segundo maior valor.")
+
+print(f"O segundo maior valor é: {segundo_maior}")
