@@ -1,0 +1,5 @@
+nome = input("Digite um Nome:")
+comp = len(nome)
+num_espacos = nome.count(' ')
+print(f"O nome tem {comp} caracteres")
+print(f"O nome tem {num_espacos} espaços")
