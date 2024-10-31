@@ -1,9 +1,9 @@
 def printCharLine(texto,numeroCar):
-    index = 0
     
-    while (len(texto) > numCar):
+    
+    while (len(texto) > numeroCar):
         print(texto[0:numeroCar])
-        texto=texto[numCar:]
+        texto=texto[numeroCar:]
         print(texto)
 
 texto = input("Digite o texto: ")
