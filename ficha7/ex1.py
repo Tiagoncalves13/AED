@@ -1,75 +1,80 @@
-# Função para garantir que o ficheiro de países existe
-def garantir_ficheiro():
-    try:
-        open('files/paises.txt', 'r').close()  # Tenta abrir para leitura
-    except FileNotFoundError:
-        with open('files/paises.txt', 'w', encoding='utf-8') as f:
-            pass  # Cria o ficheiro vazio se não existir
+import os 
 
-# Função para inserir um novo país no ficheiro
-def inserir_pais():
-    pais = input("Introduza o nome do país: ").strip()
-    continente = input("Introduza o continente do país: ").strip()
+listaContinentes = ["América",  "Europa", "Ásia", "África", "Oceania"]
 
-    # Verifica se o país já existe no ficheiro
-    with open('files/paises.txt', 'r', encoding='utf-8') as file:
-        paises_existentes = file.readlines()
+def lerFicheiro():
+    """
+    ler ficheiro de paises e devolve uma lista com o conteudo 
+    """
+    filePaises = open(ficheiro, 'r')
+    listaPaises = filePaises.readlines()
+    filePaises.close()
+    return listaPaises
 
-    # Verifica se o país já está no ficheiro
-    for linha in paises_existentes:
-        if pais in linha.split(';')[0]:
-            print(f"O país {pais} já existe no ficheiro.")
-            return
+def guardarFicheiro(pais, continente):
+    filePaises = open (ficheiro, "a", encoding = "utf-8")
+    linha = pais + ";" + continente + "\n"
+    filePaises.write(linha)
+    filePaises.close()
 
-    # Se o país não existir, adiciona ao ficheiro
-    with open('files/paises.txt', 'a', encoding='utf-8') as file:
-        file.write(f"{pais};{continente}\n")
-    print(f"País {pais} adicionado com sucesso!")
+def inserirPaises():
+    """"
+    Lê paises e lê um continente e acrescenta ao ficheiro paises.txt
+    """
+    os.system('cls')
+    pais = input("Introduza um país: ")
 
-# Função para listar todos os países
+    continente = input("Introduza um continente: ")
+    if continente not in listaContinentes:
+        print("O continente não existe")
+        input()
+    else:
+        listaPaises = lerFicheiro()
+        for linha in listaPaises:
+            campos = linha.split(";")
+            if campos[0] == pais:
+                print("O país {:s} já existe". format(pais))
+                input()
+                return
+        guardarFicheiro(pais, continente)
+#----------------------------------------------------------------#
+
 def consultar_paises():
-    with open('files/paises.txt', 'r', encoding='utf-8') as file:
-        paises = file.readlines()
+    listapaises = lerFicheiro()
+    for linha in listapaises:
+        campos = linha.split(";")
+        print(campos[0],campos[1])
+    input()
 
-    if not paises:
-        print("Não há países registrados.")
-    else:
-        for linha in paises:
-            print(linha.strip())
-
-# Função para consultar países por continente
 def consultar_por_continente():
-    continente = input("Introduza o nome do continente: ").strip()
-    with open('files/paises.txt', 'r', encoding='utf-8') as file:
-        paises = file.readlines()
-
-    encontrados = [linha.strip() for linha in paises if continente in linha.split(';')[1]]
+    os.system("cls")
+    continente = input("Introduza um continente: ")
     
-    if not encontrados:
-        print(f"Não há países registrados no continente {continente}.")
-    else:
-        for pais in encontrados:
-            print(pais)
+    listapaises = lerFicheiro()
+    for linha in listapaises:
+        campos = linha.split(";")
+        if continente == campos[1].strip("\n"):
+            print(campos[0],campos[1])
+    input()
 
-# Função para contar o número de países por continente
+#--------------------------------------------------------#
+
 def contar_paises_por_continente():
-    with open('files/paises.txt', 'r', encoding='utf-8') as file:
-        paises = file.readlines()
+    listaPaises = lerFicheiro()
 
-    continentes = {}
-    for linha in paises:
-        continente = linha.strip().split(';')[1]
-        if continente in continentes:
-            continentes[continente] += 1
-        else:
-            continentes[continente] = 1
+    for continente in listaContinentes:
+        numeropaises = 0 
+        for linha in listaPaises:
+            if linha.split(";")[1].strip("\n") == continente:
+                numeropaises +=1
+        print(numeropaises, continente)
+    input()
 
-    for continente, count in continentes.items():
-        print(f"Continente {continente}: {count} países")
-
-# Função para exibir o menu
+#----------------------------------------------------------#
+ficheiro = ".\\files\\paises.txt"
 def menu():
     while True:
+        os.system("cls")
         print("\nMENU")
         print("1 - Inserir Países")
         print("2 - Consulta Países")
@@ -79,8 +84,7 @@ def menu():
         opcao = input("Escolha uma opção: ")
 
         if opcao == '1':
-            garantir_ficheiro()
-            inserir_pais()
+            inserirPaises()
         elif opcao == '2':
             consultar_paises()
         elif opcao == '3':
